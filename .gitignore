@@ -1,0 +1,67 @@
+# Файлы и папки, игнорируемые PyCharm
+.idea/
+*.iml
+
+# Виртуальное окружение
+venv/
+.venv/
+mgvenv/
+env/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.swp
+
+# Конфигурационные файлы и секретные данные
+instance/
+config.py
+.env
+*.sqlite3
+db.sqlite3
+
+# Логи и временные файлы
+logs/
+*.log
+*.bak
+*.tmp
+*.pid
+
+# Кэш и зависимости
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Docker (если используешь)
+docker-compose.override.yml
+*.dockerfile
+*.tar
+
+# Файлы, создаваемые IDE и операционной системой
+*.DS_Store
+*.Thumbs.db
+
+# Скомпилированные файлы Cython
+*.c
+*.so
+
+# Jupyter Notebook (если используешь)
+.ipynb_checkpoints/
+
+# Файлы, игнорируемые при развертывании
+.envrc
+*.pem
+*.crt
+*.key
+
+# Aiogram-specific
+data/
+sessions/
+bot_session/
+
+# Gunicorn
+gunicorn.log
+gunicorn.err
+
+# Celery (если используешь)
+celerybeat-schedule
+celerybeat.pid
