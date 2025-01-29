@@ -4,7 +4,7 @@ from main import is_valid_imei
 # Тестирование корректного IMEI
 @pytest.mark.parametrize("imei", [
     ("490154203237518"),  # действительный IMEI
-    ("123456789012345")   # недействительный IMEI
+    ("987654321098765")   # недействительный IMEI
 ])
 def test_valid_imei(imei):
     assert is_valid_imei(imei) is True
