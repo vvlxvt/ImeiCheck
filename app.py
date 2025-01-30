@@ -11,8 +11,7 @@ from aiogram.enums import ParseMode
 from aiogram.types import Message
 from aiogram.filters import Command
 
-# TOKEN = getenv("BOT_TOKEN")
-TOKEN = '8077941644:AAFQzB5cP1TVmSaQFn-elxFJlRGS0zgqT2A'
+TOKEN = 'your_token_taken_from_bot-father'
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 app = Flask(__name__)
