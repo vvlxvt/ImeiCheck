@@ -1,16 +1,15 @@
 import asyncio
 import logging
 import sys
-from threading import Thread
-
 import aiohttp
-from flask import Flask, request, jsonify
+from threading import Thread
 from aiogram import Bot, Dispatcher
+from flask import Flask, request, jsonify
+from functions import IsValidUser, is_valid_imei
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.types import Message
-from aiogram.filters import Command, CommandStart
-from functions import IsValidUser, is_valid_imei
+from aiogram.filters import Command
 
 # TOKEN = getenv("BOT_TOKEN")
 TOKEN = '8077941644:AAFQzB5cP1TVmSaQFn-elxFJlRGS0zgqT2A'
@@ -19,13 +18,13 @@ dp = Dispatcher()
 app = Flask(__name__)
 
 # Куклы для проверки IMEI
-dummy_imei_db = {
-    "490154203237518": {"brand": "Samsung", "model": "Galaxy S21", "status": "Clean"},
-    "987654321098765": {"brand": "Apple", "model": "iPhone 13", "status": "Blacklisted"},
+imei_instance_db = {
+    "490154203237518": {"brand": "Blackberry", "model": "Passport", "status": "Clean"},
+    "357466283130237": {"brand": "Google", "model": "Pixel 8A", "status": "Blacklisted"},
 }
 
 
-API_TOKEN = "your_api_token"
+API_TOKEN = "your_secret_api_token"
 
 @app.route("/api/check-imei", methods=["POST"])
 def check_imei_api():
@@ -49,7 +48,7 @@ def check_imei_api():
         if not is_valid_imei(imei):
             return jsonify({"status": "error", "message": "Неверный формат IMEI"}), 400
 
-        imei_info = dummy_imei_db.get(imei)
+        imei_info = imei_instance_db.get(imei)
         if not imei_info:
             return jsonify({"status": "error", "message": "IMEI не найден в базе"}), 404
 
@@ -74,10 +73,8 @@ async def check_imei_handler(message: Message):
     imei = message.text.strip()
 
     if not is_valid_imei(imei):
-        await message.answer("❌ Неверный формат IMEI. Введите 15-значный номер.")
+        await message.answer("Неверный формат IMEI. Введите 15-значный номер.")
         return
-
-    await message.answer(f"🔄 Проверяю IMEI: {imei}...")
 
     async with aiohttp.ClientSession() as session:
         async with session.post("http://127.0.0.1:5000/api/check-imei",
@@ -85,9 +82,9 @@ async def check_imei_handler(message: Message):
             data = await response.json()
 
     if data["status"] == "error":
-        await message.answer(f"❌ Ошибка: {data['message']}")
+        await message.answer(f"Ошибка: {data['message']}")
     else:
-        await message.answer(f"✅ Найден: {data['brand']} {data['model']}\n📌 Статус: {data['status']}")
+        await message.answer(f"Найден: {data['brand']} {data['model']}\nСтатус: {data['status']}")
 
 
 def run_flask():

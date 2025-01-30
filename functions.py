@@ -10,7 +10,7 @@ class IsValidUser(BaseMiddleware):
 
     async def __call__(self, handler, event: Message, data):
         if event.from_user.id not in self.whitelist:
-            await event.answer("⛔ У вас нет доступа к боту.")
+            await event.answer("Отсутствует доступ к боту.")
             return
         return await handler(event, data)
 
@@ -31,6 +31,3 @@ def is_valid_imei(imei):
     return total % 10 == 0
 
 
-print(is_valid_imei("257466092312340"))
-print(is_valid_imei("49015420323751A"))
-print(is_valid_imei("12345678901234"))
