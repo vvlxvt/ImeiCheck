@@ -17,7 +17,7 @@ class IsValidUser(BaseMiddleware):
 def is_valid_imei(imei):
     """Проверяем IMEI по алгоритму Луна"""
     if not isinstance(imei, str) or not re.fullmatch(r"\d{15}", imei):
-        return False
+        return False  # Нужно явно вернуть False
 
     total = 0
     for i, digit in enumerate(reversed(imei)):
@@ -29,3 +29,8 @@ def is_valid_imei(imei):
         total += n
 
     return total % 10 == 0
+
+
+print(is_valid_imei("257466092312340"))
+print(is_valid_imei("49015420323751A"))
+print(is_valid_imei("12345678901234"))
